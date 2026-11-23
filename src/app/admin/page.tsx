@@ -44,12 +44,13 @@ import {
 } from 'lucide-react';
 import { tacticalAudio } from '@/lib/audio';
 import { DEFENSE_MODULES } from '@/lib/modules';
+import AdminModulesManager from './components/AdminModulesManager';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
 
-  // Active Sidebar Tab: PAYMENTS, STUDENTS, COURSES, QUESTIONS, CMS
-  const [activeTab, setActiveTab] = useState<'PAYMENTS' | 'STUDENTS' | 'COURSES' | 'QUESTIONS' | 'CMS'>('PAYMENTS');
+  // Active Sidebar Tab: PAYMENTS, STUDENTS, COURSES, TRAINING, QUESTIONS, CMS
+  const [activeTab, setActiveTab] = useState<'PAYMENTS' | 'STUDENTS' | 'COURSES' | 'TRAINING' | 'QUESTIONS' | 'CMS'>('PAYMENTS');
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Admin user
@@ -529,6 +530,13 @@ export default function AdminDashboardPage() {
       icon: BookOpen,
       badge: stats?.totalCourses !== undefined ? stats.totalCourses : null,
       badgeColor: 'bg-navy-800 text-gold-400 font-bold'
+    },
+    {
+      id: 'TRAINING',
+      label: 'Training Content (3-11)',
+      icon: Award,
+      badge: 'LIVE',
+      badgeColor: 'bg-gold-500 text-navy-950 font-black'
     },
     {
       id: 'QUESTIONS',
@@ -1190,6 +1198,11 @@ export default function AdminDashboardPage() {
               )}
             </div>
           )}
+
+          {/* ========================================================
+              TAB: TRAINING CONTENT (OPTIONS 3 TO 11 CRUD)
+              ======================================================== */}
+          {activeTab === 'TRAINING' && <AdminModulesManager />}
 
           {/* ========================================================
               TAB 4: QUESTION SUITE LAUNCHPAD

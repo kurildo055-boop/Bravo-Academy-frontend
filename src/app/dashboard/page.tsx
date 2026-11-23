@@ -275,7 +275,7 @@ export default function StudentDashboardPage() {
                 const isSelected = activeTab === item.id;
 
                 if (item.type === 'module') {
-                  const isUnlocked = hasActiveEnrollment && checkModuleAccess(item.id, activeEnrollments);
+                  const isUnlocked = user?.role === 'ADMIN' || (hasActiveEnrollment && checkModuleAccess(item.id, activeEnrollments));
 
                   if (isUnlocked) {
                     return (
@@ -628,7 +628,7 @@ export default function StudentDashboardPage() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {DEFENSE_MODULES.map((mod) => {
-                    const isUnlocked = checkModuleAccess(mod.id, activeEnrollments);
+                    const isUnlocked = user?.role === 'ADMIN' || (hasActiveEnrollment && checkModuleAccess(mod.id, activeEnrollments));
 
                     if (isUnlocked) {
                       return (

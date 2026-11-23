@@ -67,7 +67,7 @@ export const DEFENSE_MODULES: DefenseModule[] = [
     label: '7. Planning Exercise (MPE)',
     shortName: 'Military Planning (MPE)',
     sidebarLabel: '7. Planning Exercise (MPE)',
-    href: '/practice/gto',
+    href: '/practice/mpe',
     description: 'Military Planning Exercise tactics, resource allocation, and map scenario briefs.',
     targetTest: 'ISSB Day 3 Planning'
   },
@@ -89,7 +89,7 @@ export const DEFENSE_MODULES: DefenseModule[] = [
     label: '9. Physical Preparation',
     shortName: 'Physical Preparation',
     sidebarLabel: '9. Physical Preparation',
-    href: '/practice/gto',
+    href: '/practice/physical',
     description: 'Obstacle run tactical guides, stamina drills, pull-ups, push-ups and rope climbing regimens.',
     targetTest: 'ISSB Physical Obstacle Course'
   },
@@ -100,7 +100,7 @@ export const DEFENSE_MODULES: DefenseModule[] = [
     label: '10. Mock Examination',
     shortName: 'Mock Examination',
     sidebarLabel: '10. Mock Examination',
-    href: '/exam/iq',
+    href: '/exam/mock',
     description: 'Strict 100-mark timed military aptitude examination simulating real selection board pressure.',
     targetTest: 'Full ISSB Screening Simulation'
   },

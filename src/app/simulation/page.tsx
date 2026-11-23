@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Shield, Brain, Users, Award, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Shield, Brain, Users, Award, CheckCircle2, ArrowRight, Activity, Compass, Clock, FileText } from 'lucide-react';
 import { tacticalAudio } from '@/lib/audio';
 
 export default function SimulationPage() {
@@ -14,11 +14,11 @@ export default function SimulationPage() {
       title: 'DAY 1: SCREENING PHASE',
       subtitle: 'Verbal IQ, Non-Verbal IQ & PPDT Story Writing',
       modules: [
-        { name: 'Intelligence Test (100 Questions in 60 mins)', link: '/exam/iq', status: 'READY' },
+        { name: '100-Mark Intelligence Test (Verbal & Non-Verbal)', link: '/exam/mock', status: 'READY' },
         { name: 'PPDT Picture Observation (30s) & Story Writing (4m)', link: '/practice/ppdt', status: 'READY' },
         { name: 'Group Discussion & Screening Result Simulation', link: '/practice/ppdt', status: 'READY' },
       ],
-      description: 'The critical filter. Approximately 60% of candidates are screened out on Day 1. Speed and proactive character perception are paramount.'
+      description: 'The critical filter. Approximately 60% of candidates are screened out on Day 1. Speed, high IQ accuracy, and proactive character perception are paramount.'
     },
     {
       day: 2,
@@ -29,8 +29,9 @@ export default function SimulationPage() {
         { name: 'WAT — Word Association Test (60 Words, 15s each)', link: '/practice/psychology', status: 'READY' },
         { name: 'SCT — Sentence Completion Test (60 Sentences)', link: '/practice/psychology', status: 'READY' },
         { name: 'SRT — Situation Reaction Test (60 Situations)', link: '/practice/psychology', status: 'READY' },
+        { name: 'SD — Self Description Battery (5 Dimensions)', link: '/practice/psychology', status: 'READY' },
       ],
-      description: 'Psychologist measures subconscious personality attributes, emotional stability, and true military officer potential.'
+      description: 'Psychologist measures subconscious personality attributes, emotional stability, stress tolerance, and true military officer potential.'
     },
     {
       day: 3,
@@ -38,19 +39,21 @@ export default function SimulationPage() {
       subtitle: 'Outdoor Bridging, Command Task & Board Interview',
       modules: [
         { name: 'Progressive Group Task (PGT) & Half Group Task (HGT)', link: '/practice/gto', status: 'READY' },
-        { name: 'Command Task & Military Planning Exercise (MPE)', link: '/practice/gto', status: 'READY' },
+        { name: 'Military Planning Exercise (MPE Map Simulation)', link: '/practice/mpe', status: 'READY' },
+        { name: 'Individual Command Task & Cantilever Physics', link: '/practice/gto', status: 'READY' },
+        { name: '9 Individual Obstacle Run (55 Marks, 3 Mins)', link: '/practice/physical', status: 'READY' },
         { name: 'President / Deputy President Personal Interview', link: '/practice/interview', status: 'READY' },
       ],
-      description: 'Tests resourcefulness under physical fatigue, cooperative team dynamics, courage, and interpersonal presence.'
+      description: 'Tests resourcefulness under physical fatigue, cooperative team dynamics, courage at heights, and interpersonal presence.'
     },
     {
       day: 4,
       title: 'DAY 4: BOARD CONFERENCE & RESULTS',
       subtitle: 'Final Deliberation & Green Card Recommendation',
       modules: [
-        { name: 'Board Conference Review Session', link: '/dashboard', status: 'READY' },
+        { name: 'Board Conference Review Session & Interview Follow-up', link: '/practice/interview', status: 'READY' },
         { name: 'Comprehensive Officer Like Qualities (OLQ) Report', link: '/dashboard', status: 'READY' },
-        { name: 'Green Card Assessment Status', link: '/dashboard', status: 'READY' },
+        { name: 'Green Card Commission Recommendation Status', link: '/dashboard', status: 'READY' },
       ],
       description: 'The collective panel of psychologists, GTOs, and senior officers convene to make final commissioning recommendations.'
     }
@@ -59,19 +62,29 @@ export default function SimulationPage() {
   const currentDay = daysData[activeDay - 1];
 
   return (
-    <div className="min-h-screen bg-navy-950 pt-28 pb-20 px-4 sm:px-6 lg:px-8 bg-military-grid">
-      <div className="max-w-5xl mx-auto space-y-10">
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-mono font-bold uppercase">
-            <Shield className="w-4 h-4" />
-            <span>FULL ISSB 4-STAGE LIVE SIMULATION</span>
+    <div className="min-h-screen bg-[#040d08] text-slate-100 pt-24 pb-20 px-4 sm:px-6 lg:px-8 bg-military-grid">
+      <div className="max-w-5xl mx-auto space-y-8">
+
+        {/* Header Breadcrumb */}
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-emerald-950/60 pb-4">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono font-bold tracking-widest uppercase">
+              <Shield className="w-3.5 h-3.5" />
+              <span>FULL 4-DAY SEQUENCE • OPTION 11</span>
+            </div>
+            <h1 className="text-2xl sm:text-4xl font-black uppercase text-white font-military tracking-wider mt-2">
+              4-DAY OFFICER SELECTION SIMULATOR
+            </h1>
+            <p className="text-xs text-slate-400 font-sans mt-0.5">
+              Experience the complete, uninterrupted 4-day selection schedule of the Inter Services Selection Board.
+            </p>
           </div>
-          <h1 className="text-3xl sm:text-5xl font-black uppercase text-white font-military">
-            4-DAY OFFICER SELECTION SIMULATOR
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-xl mx-auto">
-            Experience the complete, uninterrupted 4-day selection schedule of the Inter Services Selection Board.
-          </p>
+          <Link
+            href="/dashboard"
+            className="px-4 py-2 rounded-xl bg-emerald-950/40 border border-emerald-800/40 text-emerald-400 hover:text-white text-xs font-mono font-bold uppercase transition-all"
+          >
+            ← Back to Dashboard
+          </Link>
         </div>
 
         {/* Day 1 - 4 Navigation Steps */}
@@ -86,7 +99,7 @@ export default function SimulationPage() {
               className={`p-4 rounded-xl border text-left transition-all ${
                 activeDay === d.day
                   ? 'bg-gold-500/20 border-gold-500 shadow-lg'
-                  : 'bg-navy-900 border-navy-800 hover:border-slate-700'
+                  : 'bg-[#071910] border-emerald-900/60 hover:border-emerald-700'
               }`}
             >
               <div className="text-xs font-mono text-gold-400 font-bold">DAY 0{d.day}</div>
@@ -98,8 +111,8 @@ export default function SimulationPage() {
         </div>
 
         {/* Active Day Detail Card */}
-        <div className="glass-panel rounded-2xl p-6 sm:p-10 border border-gold-500/30 space-y-6 shadow-2xl">
-          <div className="border-b border-navy-800 pb-4">
+        <div className="p-6 sm:p-10 rounded-2xl bg-[#071910] border border-gold-500/30 space-y-6 shadow-2xl">
+          <div className="border-b border-emerald-950 pb-4">
             <div className="text-xs font-mono text-gold-400 font-bold">{currentDay.subtitle}</div>
             <h2 className="text-2xl sm:text-3xl font-black text-white font-military mt-1">
               {currentDay.title}
@@ -116,10 +129,10 @@ export default function SimulationPage() {
             {currentDay.modules.map((m, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-xl bg-navy-900 border border-navy-800 flex items-center justify-between hover:border-gold-500/40 transition-all"
+                className="p-4 rounded-xl bg-[#040e09] border border-emerald-950 flex flex-wrap items-center justify-between gap-3 hover:border-gold-500/40 transition-all"
               >
                 <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 rounded-lg bg-navy-800 text-gold-400 font-mono text-xs font-bold flex items-center justify-center">
+                  <span className="w-7 h-7 rounded-lg bg-emerald-950 text-gold-400 font-mono text-xs font-bold flex items-center justify-center border border-emerald-900">
                     {idx + 1}
                   </span>
                   <span className="text-xs sm:text-sm font-semibold text-white font-sans">{m.name}</span>
@@ -128,7 +141,7 @@ export default function SimulationPage() {
                 <Link
                   href={m.link}
                   onClick={() => tacticalAudio.playInterfaceClick()}
-                  className="px-4 py-2 rounded-lg bg-gold-500 hover:bg-gold-400 text-navy-950 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-lg bg-gold-500 hover:bg-gold-400 text-navy-950 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md"
                 >
                   <span>START DRILL</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -137,6 +150,7 @@ export default function SimulationPage() {
             ))}
           </div>
         </div>
+
       </div>
     </div>
   );
