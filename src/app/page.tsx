@@ -24,9 +24,121 @@ import {
   Video,
   FileText,
   Volume2,
-  VolumeX
+  VolumeX,
+  Target,
+  Check
 } from 'lucide-react';
 import { tacticalAudio } from '@/lib/audio';
+
+const FALLBACK_COURSES = [
+  {
+    id: 'course-army-bma',
+    title: 'BMA Long Course Complete Mastery',
+    targetForce: 'ARMY',
+    slug: 'bma-long-course',
+    description: 'Complete 360° pre-commission preparation for Bangladesh Military Academy. Includes full IQ battery, PPDT, GTO tasks, and Viva drills.',
+    regularPrice: 5800,
+    discountPrice: 3500,
+    validityDays: 180,
+    features: ['100+ Authentic Verbal IQ Drills', 'PPDT Story Writing & Narration', 'GTO Field Tactics & MPE Plans'],
+  },
+  {
+    id: 'course-navy-bna',
+    title: 'BNA Officer Cadet Naval Package',
+    targetForce: 'NAVY',
+    slug: 'bna-officer-cadet',
+    description: 'Rigorous training module for Bangladesh Naval Academy officer cadet screening. Specialized spatial reasoning, science aptitude, and interview prep.',
+    regularPrice: 5200,
+    discountPrice: 3200,
+    validityDays: 180,
+    features: ['Naval Aptitude & Spatial Tests', 'Psychology Battery & WAT Drills', 'Board Viva Simulation with Mentors'],
+  },
+  {
+    id: 'course-airforce-bafa',
+    title: 'BAFA GD(P) & Engineering Special',
+    targetForce: 'AIR_FORCE',
+    slug: 'bafa-gdp-engineering',
+    description: 'Elite aviation aptitude, rapid supersonic decision drills, flight psychology, and technical screening for Bangladesh Air Force Academy.',
+    regularPrice: 6200,
+    discountPrice: 3800,
+    validityDays: 180,
+    features: ['Flight Grading & Pilot Aptitude', 'High-Speed Reflex Time Drills', '4-Day Complete ISSB Simulation'],
+  },
+];
+
+const FALLBACK_VIDEOS = [
+  {
+    id: 'vid-1',
+    title: 'PPDT Masterclass: 30-Second Picture Perception & Story Formulation',
+    description: 'Learn the exact military psychology methodology to identify hero, mood, action, and outcome in under 4 minutes.',
+    embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    duration: '18 Min',
+  },
+  {
+    id: 'vid-2',
+    title: 'GTO Ground Tasks: Bridging & Cantilever Tactics Explained',
+    description: 'Comprehensive physical obstacle breakdown covering fulcrum physics, plank tying, and leaderless group dynamics.',
+    embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    duration: '24 Min',
+  },
+  {
+    id: 'vid-3',
+    title: 'Board Interview Psychology: Body Language & Officer Like Qualities (OLQ)',
+    description: 'Master the President & Deputy President viva questions, general knowledge tactics, and authentic composure under pressure.',
+    embedUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+    duration: '21 Min',
+  },
+];
+
+const FALLBACK_TESTIMONIALS = [
+  {
+    id: 'test-1',
+    candidateName: 'Cadet Tahmidur Rahman',
+    cadetCourse: '91 BMA Long Course',
+    forceSelected: 'Bangladesh Army',
+    rating: 5,
+    reviewText: 'The strict 30-second IQ timers and authentic PPDT scenarios gave me extreme confidence. Recommended on my very first attempt!',
+  },
+  {
+    id: 'test-2',
+    candidateName: 'Cadet Fahim Chowdhury',
+    cadetCourse: '2024-B BNA Officer Cadet',
+    forceSelected: 'Bangladesh Navy',
+    rating: 5,
+    reviewText: 'The spatial reasoning drills and MPE planning tasks match the actual ISSB board standards completely. Best platform in BD.',
+  },
+  {
+    id: 'test-3',
+    candidateName: 'Cadet Tanvir Ahmed',
+    cadetCourse: '86 BAFA GD(P)',
+    forceSelected: 'Bangladesh Air Force',
+    rating: 5,
+    reviewText: 'Superb platform. The rapid decision drills and psychology word association battery prepared me thoroughly for flight grading.',
+  },
+];
+
+const FALLBACK_FAQS = [
+  {
+    id: 'faq-1',
+    question: 'How does Bravo Academy simulate the real ISSB screening test?',
+    answer: 'We provide authentic timed Verbal & Non-Verbal IQ drills with strict 30-second server constraints, realistic PPDT picture projection with automated story timers, and comprehensive 4-day psychological battery assessments modeled directly after ISSB standards.',
+  },
+  {
+    id: 'faq-2',
+    question: 'Can I practice on my mobile phone or tablet?',
+    answer: 'Yes! Bravo Academy is 100% responsive and optimized for mobile phones, tablets, laptops, and desktop computers with zero loss of functionality.',
+  },
+  {
+    id: 'faq-3',
+    question: 'How does course enrollment and payment approval work?',
+    answer: 'Candidates make a quick payment via bKash or Nagad, submit their transaction ID and cadet details, and our admin team verifies and unlocks the full candidate dashboard with premium access.',
+  },
+  {
+    id: 'faq-4',
+    question: 'Are the IQ questions authentic Bangladesh defense questions?',
+    answer: 'Yes, our question bank contains over 1,000 verified questions extracted from official defense examination papers and authentic academy mock series.',
+  },
+];
 
 export default function HomePage() {
   const [data, setData] = useState<any>(null);
@@ -36,6 +148,7 @@ export default function HomePage() {
   const [heroMode, setHeroMode] = useState<'video' | '3d'>('video');
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const audioRef = React.useRef<HTMLAudioElement>(null);
 
@@ -114,7 +227,7 @@ export default function HomePage() {
   const stats = data?.stats || {
     totalStudents: 3421,
     availableCourses: 7,
-    totalQuestions: 1055,
+    totalQuestions: 1005,
     successfulCandidates: 890,
   };
 
@@ -127,16 +240,26 @@ export default function HomePage() {
     secondaryCtaLink: '/courses',
   };
 
+  // Strictly 3 courses for the homepage as requested by user
+  const rawCourses = data?.featuredCourses && data.featuredCourses.length > 0 ? data.featuredCourses : FALLBACK_COURSES;
+  const coursesToDisplay = rawCourses.slice(0, 3);
+
+  const videosToDisplay = data?.videos && data.videos.length > 0 ? data.videos.slice(0, 3) : FALLBACK_VIDEOS;
+  const testimonialsToDisplay = data?.testimonials && data.testimonials.length > 0 ? data.testimonials.slice(0, 3) : FALLBACK_TESTIMONIALS;
+  const faqsToDisplay = data?.faqs && data.faqs.length > 0 ? data.faqs.slice(0, 4) : FALLBACK_FAQS;
+
   return (
-    <div className="relative min-h-screen bg-[#071610] overflow-hidden">
+    <div className="relative min-h-screen bg-[#040d08] text-slate-100 overflow-hidden">
+      {/* Background Military Grid Accent */}
+      <div className="fixed inset-0 bg-military-grid pointer-events-none opacity-40 z-0" />
+
       {/* ========================================================
           1. CINEMATIC HERO SECTION
           ======================================================== */}
-      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden">
-        {/* Dynamic Hero Background: Live Action Video Footage or 3D WebGL Flight Canvas */}
+      <section className="relative min-h-screen flex items-center justify-center pt-24 pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
+        {/* Dynamic Hero Background */}
         {heroMode === 'video' ? (
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* 100% Natural Crystal-Clear HD Military Video */}
             <video
               ref={videoRef}
               autoPlay
@@ -152,12 +275,12 @@ export default function HomePage() {
           <TacticalHeroCanvas viewMode={camMode} onViewChange={setCamMode} />
         )}
 
-        {/* Minimal Edge-Only Transitions: 100% Crystal-Clear Video Transparency (Zero Dark Fog / Tint) */}
-        <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-black/60 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-[#071610] via-transparent to-transparent pointer-events-none" />
+        {/* Minimal Edge Transitions */}
+        <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-black/70 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute bottom-0 inset-x-0 h-28 bg-gradient-to-t from-[#040d08] via-transparent to-transparent pointer-events-none" />
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-7">
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-6">
           {/* Tactical Badge & Radar Indicator */}
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#082218]/90 border border-emerald-500/40 text-emerald-300 text-xs font-mono tracking-widest uppercase shadow-lg backdrop-blur-md animate-pulse">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
@@ -173,16 +296,16 @@ export default function HomePage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="max-w-2xl mx-auto text-base sm:text-xl text-slate-200 font-sans leading-relaxed drop-shadow-md">
+          <p className="max-w-2xl mx-auto text-sm sm:text-lg text-slate-200 font-sans leading-relaxed drop-shadow-md">
             {cms.heroSubtitle}
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
             <Link
               href={cms.primaryCtaLink}
               onClick={handleSound}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-gold-500 via-amber-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-[0_0_25px_rgba(214,173,96,0.5)] hover:shadow-[0_0_35px_rgba(16,185,129,0.7)] hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-gold-500 via-amber-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 shadow-[0_0_25px_rgba(214,173,96,0.5)] hover:shadow-[0_0_35px_rgba(16,185,129,0.7)] hover:scale-105 active:scale-95 flex items-center justify-center gap-2 group"
             >
               <span>{cms.primaryCtaText}</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -191,19 +314,18 @@ export default function HomePage() {
             <Link
               href={cms.secondaryCtaLink}
               onClick={handleSound}
-              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-[#09241a]/90 hover:bg-[#0d2f22] border border-emerald-500/40 hover:border-emerald-400 text-white font-bold text-sm uppercase tracking-widest transition-all duration-300 backdrop-blur-md flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#09241a]/90 hover:bg-[#0d2f22] border border-emerald-500/40 hover:border-emerald-400 text-white font-bold text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 backdrop-blur-md flex items-center justify-center gap-2"
             >
               <BookOpen className="w-4 h-4 text-emerald-400" />
               <span>{cms.secondaryCtaText}</span>
             </Link>
           </div>
 
-          {/* Tactical Background Mode & Prominent Audio Song Controller */}
-          <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
-            {/* Audio Song Autoplay & Manual Off/On Button */}
+          {/* Tactical Background Mode & Prominent Audio Controller */}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-2.5">
             <button
               onClick={toggleSound}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono font-bold tracking-wider border backdrop-blur-md transition-all shadow-xl ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider border backdrop-blur-md transition-all shadow-xl ${
                 isPlayingAudio && !isMuted
                   ? 'bg-emerald-500/25 border-emerald-400 text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.4)] animate-pulse'
                   : 'bg-slate-900/85 border-slate-700 text-slate-300 hover:text-white hover:border-emerald-500/50'
@@ -211,50 +333,48 @@ export default function HomePage() {
             >
               {isPlayingAudio && !isMuted ? (
                 <>
-                  <Volume2 className="w-4 h-4 text-emerald-400 animate-bounce" />
-                  <span>DEFENSE SOUNDTRACK: PLAYING (CLICK TO MUTE)</span>
+                  <Volume2 className="w-3.5 h-3.5 text-emerald-400 animate-bounce" />
+                  <span>DEFENSE SOUNDTRACK: PLAYING (MUTE)</span>
                 </>
               ) : (
                 <>
-                  <VolumeX className="w-4 h-4 text-slate-400" />
-                  <span>DEFENSE SOUNDTRACK: MUTED (CLICK TO PLAY)</span>
+                  <VolumeX className="w-3.5 h-3.5 text-slate-400" />
+                  <span>DEFENSE SOUNDTRACK: MUTED (PLAY)</span>
                 </>
               )}
             </button>
 
-            {/* Mode Switcher */}
             <div className="inline-flex items-center p-1 rounded-full bg-[#082218]/90 border border-slate-700/80 backdrop-blur-md shadow-xl">
               <button
                 onClick={() => {
                   handleSound();
                   setHeroMode('video');
                 }}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider transition-all ${
                   heroMode === 'video'
                     ? 'bg-gradient-to-r from-gold-500 to-emerald-600 text-navy-950 font-black shadow-[0_0_15px_rgba(16,185,129,0.5)]'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
                 <Video className="w-3.5 h-3.5" />
-                <span>OFFICIAL DEFENSE FOOTAGE</span>
+                <span>OFFICIAL FOOTAGE</span>
               </button>
               <button
                 onClick={() => {
                   handleSound();
                   setHeroMode('3d');
                 }}
-                className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wider transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider transition-all ${
                   heroMode === '3d'
                     ? 'bg-gradient-to-r from-gold-500 to-emerald-600 text-navy-950 font-black shadow-[0_0_15px_rgba(16,185,129,0.5)]'
                     : 'text-slate-300 hover:text-white'
                 }`}
               >
                 <Crosshair className="w-3.5 h-3.5" />
-                <span>3D BATTLE SIMULATOR</span>
+                <span>3D SIMULATOR</span>
               </button>
             </div>
 
-            {/* 3D Camera Angles */}
             {heroMode === '3d' && (
               <div className="flex items-center gap-1.5">
                 {(['COMMAND', 'DOGFIGHT', 'FLEET'] as const).map((mode) => (
@@ -270,7 +390,7 @@ export default function HomePage() {
                         : 'bg-navy-900/80 border border-slate-700 text-slate-300 hover:text-white hover:border-gold-500/40'
                     }`}
                   >
-                    {mode === 'COMMAND' ? 'COMMAND VIEW' : mode === 'DOGFIGHT' ? 'DOGFIGHT CHASE' : 'NAVAL FLEET'}
+                    {mode === 'COMMAND' ? 'COMMAND' : mode === 'DOGFIGHT' ? 'DOGFIGHT' : 'FLEET'}
                   </button>
                 ))}
               </div>
@@ -278,9 +398,9 @@ export default function HomePage() {
           </div>
 
           {/* Radar Scanning Coordinate Bar */}
-          <div className="pt-2 flex items-center justify-center gap-6 text-[11px] font-mono text-slate-300">
+          <div className="pt-1 flex items-center justify-center gap-5 text-[11px] font-mono text-emerald-400/80">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-defense-success" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
               RADAR ACTIVE
             </span>
             <span>LAT 23.8103° N · LON 90.4125° E</span>
@@ -290,43 +410,43 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          2. LIVE PLATFORM STATISTICS (DATABASE-DRIVEN)
+          2. COMPACT TACTICAL HUD STATS BAR
           ======================================================== */}
-      <section className="relative z-10 border-y border-navy-800 bg-navy-900/60 backdrop-blur-md py-8">
+      <section className="relative z-10 border-y border-emerald-900/50 bg-[#04100b]/90 backdrop-blur-md py-5 sm:py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div className="space-y-1">
-              <div className="text-3xl sm:text-4xl font-black text-gold-400 font-military">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-emerald-900/30 text-center">
+            <div className="pt-2 sm:pt-0 sm:px-3 space-y-1">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-300 font-military">
                 {stats.totalStudents.toLocaleString()}+
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-300 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-mono font-medium text-emerald-300/80 uppercase tracking-wider">
                 Total Enrolled Cadets
               </div>
             </div>
 
-            <div className="space-y-1">
-              <div className="text-3xl sm:text-4xl font-black text-white font-military">
-                {stats.availableCourses} Courses
+            <div className="pt-2 sm:pt-0 sm:px-3 space-y-1">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-white font-military">
+                {stats.availableCourses} Wings
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-300 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-mono font-medium text-emerald-300/80 uppercase tracking-wider">
                 Officer Preparation Wings
               </div>
             </div>
 
-            <div className="space-y-1">
-              <div className="text-3xl sm:text-4xl font-black text-gold-400 font-military">
+            <div className="pt-2 sm:pt-0 sm:px-3 space-y-1">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-300 font-military">
                 {stats.totalQuestions.toLocaleString()}+
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-300 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-mono font-medium text-emerald-300/80 uppercase tracking-wider">
                 Original IQ Questions
               </div>
             </div>
 
-            <div className="space-y-1">
-              <div className="text-3xl sm:text-4xl font-black text-defense-success font-military">
+            <div className="pt-2 sm:pt-0 sm:px-3 space-y-1">
+              <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-emerald-400 font-military">
                 {stats.successfulCandidates}+
               </div>
-              <div className="text-xs sm:text-sm font-semibold text-slate-300 uppercase tracking-wider">
+              <div className="text-[11px] sm:text-xs font-mono font-medium text-emerald-300/80 uppercase tracking-wider">
                 Recommended Green Cards
               </div>
             </div>
@@ -337,44 +457,46 @@ export default function HomePage() {
       {/* ========================================================
           3. THREE FORCE CARDS: ARMY · NAVY · AIR FORCE
           ======================================================== */}
-      <section id="forces" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-3 mb-14">
-          <span className="text-xs font-mono font-bold tracking-[0.25em] text-gold-500 uppercase">
-            TRI-SERVICE EXCELLENCE
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black uppercase text-white font-military tracking-wide">
+      <section id="forces" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center space-y-2 mb-8 md:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+            <Shield className="w-3.5 h-3.5 text-emerald-400" />
+            <span>TRI-SERVICE EXCELLENCE</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military tracking-wide">
             CHOOSE YOUR DEFENSE BRANCH
           </h2>
-          <p className="max-w-xl mx-auto text-sm text-slate-400">
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
             Specialized pre-commission curriculums tailored specifically to the requirements of the Bangladesh Armed Forces.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
           {/* Card 1: Army */}
-          <div className="group glass-panel glass-panel-hover rounded-2xl p-8 flex flex-col justify-between border-t-4 border-t-defense-army relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-defense-army/10 rounded-bl-full pointer-events-none group-hover:bg-defense-army/20 transition-all" />
-            
-            <div className="space-y-4">
-              <div className="w-14 h-14 rounded-xl bg-defense-army/20 border border-defense-army/40 flex items-center justify-center text-white">
-                <Shield className="w-7 h-7 text-emerald-400" />
+          <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] flex flex-col justify-between overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/20 transition-all" />
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
+                <Shield className="w-6 h-6 text-emerald-400" />
               </div>
-              <h3 className="text-2xl font-black uppercase text-white font-military">
-                BANGLADESH ARMY
-              </h3>
-              <span className="inline-block text-xs font-mono px-2.5 py-1 rounded bg-defense-army/30 text-emerald-300 font-semibold">
-                BMA LONG COURSE
-              </span>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Comprehensive training for the Bangladesh Military Academy (BMA Bhatiary). Covers tactical leadership, command tasks, and physical endurance requirements.
+              <div>
+                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30 uppercase">
+                  BMA LONG COURSE
+                </span>
+                <h3 className="text-xl font-black uppercase text-white font-military mt-1">
+                  BANGLADESH ARMY
+                </h3>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Comprehensive training for Bangladesh Military Academy (BMA Bhatiary). Covers tactical leadership, command tasks, and physical endurance requirements.
               </p>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-navy-800">
+            <div className="pt-4 mt-4 border-t border-emerald-900/50">
               <Link
                 href="/courses?force=ARMY"
                 onClick={handleSound}
-                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-emerald-300 transition-colors"
               >
                 <span>EXPLORE ARMY CURRICULUM</span>
                 <ChevronRight className="w-4 h-4" />
@@ -383,29 +505,30 @@ export default function HomePage() {
           </div>
 
           {/* Card 2: Navy */}
-          <div className="group glass-panel glass-panel-hover rounded-2xl p-8 flex flex-col justify-between border-t-4 border-t-defense-navy relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-defense-navy/20 rounded-bl-full pointer-events-none group-hover:bg-defense-navy/35 transition-all" />
-            
-            <div className="space-y-4">
-              <div className="w-14 h-14 rounded-xl bg-defense-navy/40 border border-sky-500/40 flex items-center justify-center text-white">
-                <Compass className="w-7 h-7 text-sky-400" />
+          <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-sky-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(14,165,233,0.2)] flex flex-col justify-between overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full pointer-events-none group-hover:bg-sky-500/20 transition-all" />
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-inner">
+                <Compass className="w-6 h-6 text-sky-400" />
               </div>
-              <h3 className="text-2xl font-black uppercase text-white font-military">
-                BANGLADESH NAVY
-              </h3>
-              <span className="inline-block text-xs font-mono px-2.5 py-1 rounded bg-sky-950/60 text-sky-300 font-semibold border border-sky-800/40">
-                BNA OFFICER CADET
-              </span>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                Maritime strategy, naval aptitude tests, and officer development for the Bangladesh Naval Academy (BNA Chattogram) executive and technical branches.
+              <div>
+                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-semibold border border-sky-500/30 uppercase">
+                  BNA OFFICER CADET
+                </span>
+                <h3 className="text-xl font-black uppercase text-white font-military mt-1">
+                  BANGLADESH NAVY
+                </h3>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Maritime strategy, naval aptitude tests, and officer development for Bangladesh Naval Academy (BNA Chattogram) executive and technical branches.
               </p>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-navy-800">
+            <div className="pt-4 mt-4 border-t border-emerald-900/50">
               <Link
                 href="/courses?force=NAVY"
                 onClick={handleSound}
-                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-sky-300 transition-colors"
               >
                 <span>EXPLORE NAVY CURRICULUM</span>
                 <ChevronRight className="w-4 h-4" />
@@ -414,29 +537,30 @@ export default function HomePage() {
           </div>
 
           {/* Card 3: Air Force */}
-          <div className="group glass-panel glass-panel-hover rounded-2xl p-8 flex flex-col justify-between border-t-4 border-t-defense-airforce relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-defense-airforce/20 rounded-bl-full pointer-events-none group-hover:bg-defense-airforce/35 transition-all" />
-            
-            <div className="space-y-4">
-              <div className="w-14 h-14 rounded-xl bg-blue-900/40 border border-blue-400/40 flex items-center justify-center text-white">
-                <Crosshair className="w-7 h-7 text-blue-400" />
+          <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-amber-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col justify-between overflow-hidden">
+            <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-bl-full pointer-events-none group-hover:bg-amber-500/20 transition-all" />
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-inner">
+                <Crosshair className="w-6 h-6 text-amber-400" />
               </div>
-              <h3 className="text-2xl font-black uppercase text-white font-military">
-                BANGLADESH AIR FORCE
-              </h3>
-              <span className="inline-block text-xs font-mono px-2.5 py-1 rounded bg-blue-950/60 text-blue-300 font-semibold border border-blue-800/40">
-                BAFA GD(P) & ENGINEERING
-              </span>
-              <p className="text-sm text-slate-300 leading-relaxed">
+              <div>
+                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 uppercase">
+                  BAFA GD(P) & ENGINEERING
+                </span>
+                <h3 className="text-xl font-black uppercase text-white font-military mt-1">
+                  BANGLADESH AIR FORCE
+                </h3>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
                 Aviation aptitude, spatial awareness, supersonic rapid decision drills, and flight psychology for Bangladesh Air Force Academy (BAFA Jashore).
               </p>
             </div>
 
-            <div className="pt-6 mt-6 border-t border-navy-800">
+            <div className="pt-4 mt-4 border-t border-emerald-900/50">
               <Link
                 href="/courses?force=AIR_FORCE"
                 onClick={handleSound}
-                className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-white transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-amber-300 transition-colors"
               >
                 <span>EXPLORE AIR FORCE CURRICULUM</span>
                 <ChevronRight className="w-4 h-4" />
@@ -447,47 +571,48 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          4. 1000+ IQ PRACTICE ENGINE TEASER
+          4. 1000+ IQ PRACTICE ENGINE TEASER (COMPACT 2-COLUMN)
           ======================================================== */}
-      <section className="relative z-10 py-20 bg-navy-900/40 backdrop-blur-sm border-y border-navy-800">
+      <section className="relative z-10 py-10 md:py-14 bg-[#05140d]/90 backdrop-blur-sm border-y border-emerald-950/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-mono">
-                <Brain className="w-4 h-4" />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Content Column */}
+            <div className="lg:col-span-7 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
+                <Brain className="w-4 h-4 text-emerald-400" />
                 <span>1000+ VERIFIED PRACTICE QUESTIONS</span>
               </div>
-              <h2 className="text-3xl sm:text-5xl font-black uppercase text-white font-military">
+              <h2 className="text-2xl sm:text-4xl font-black uppercase text-white font-military leading-tight">
                 MASTER DEFENSE IQ UNDER REAL EXAM PRESSURE
               </h2>
-              <p className="text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 Verbal, Non-Verbal, Numerical, Spatial, and Pattern Recognition questions with strict 30-second timers, objective automated scoring, and comprehensive step-by-step solutions.
               </p>
 
-              <div className="grid grid-cols-2 gap-4 pt-2">
-                <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                  <CheckCircle2 className="w-4 h-4 text-defense-success shrink-0" />
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Random Question Pools</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                  <CheckCircle2 className="w-4 h-4 text-defense-success shrink-0" />
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Strict Server Timers</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                  <CheckCircle2 className="w-4 h-4 text-defense-success shrink-0" />
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>12 Defense Categories</span>
                 </div>
-                <div className="flex items-center gap-2.5 text-sm text-slate-200">
-                  <CheckCircle2 className="w-4 h-4 text-defense-success shrink-0" />
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-200">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>Instant Performance Analytics</span>
                 </div>
               </div>
 
-              <div className="pt-4">
+              <div className="pt-2">
                 <Link
                   href="/exam/iq"
                   onClick={handleSound}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-gold-500 hover:bg-gold-400 text-navy-950 font-black text-xs uppercase tracking-wider transition-all shadow-lg"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-gold-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 font-black text-xs uppercase tracking-wider transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105 active:scale-95"
                 >
                   <Timer className="w-4 h-4" />
                   <span>LAUNCH TIMED IQ DRILL</span>
@@ -495,44 +620,65 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Interactive IQ Preview Card */}
-            <div className="glass-panel rounded-2xl p-6 sm:p-8 space-y-6 border border-gold-500/30 relative shadow-2xl">
-              <div className="flex items-center justify-between border-b border-navy-800 pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-defense-success animate-ping" />
-                  <span className="text-xs font-mono text-gold-400 font-bold uppercase">LIVE QUESTION PREVIEW</span>
-                </div>
-                <span className="text-xs font-mono bg-navy-800 px-2.5 py-1 rounded text-slate-300">
-                  TIME: 00:28
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                <div className="text-xs font-mono text-slate-400">CATEGORY: NUMERICAL REASONING</div>
-                <p className="text-base sm:text-lg font-semibold text-white leading-snug">
-                  What is the next number in the military tactical sequence: <br />
-                  <span className="text-gold-400 font-mono text-xl">4, 9, 19, 39, [ ? ]</span>
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3 pt-2">
-                {['A) 69', 'B) 78', 'C) 79 (Correct)', 'D) 89'].map((opt, idx) => (
-                  <div
-                    key={idx}
-                    className={`p-3 rounded-lg border text-xs sm:text-sm font-mono cursor-pointer transition-all ${
-                      idx === 2
-                        ? 'bg-defense-success/20 border-defense-success text-white font-bold'
-                        : 'bg-navy-900 border-navy-800 text-slate-300 hover:border-gold-500/50'
-                    }`}
-                  >
-                    {opt}
+            {/* Right Interactive IQ Preview Box */}
+            <div className="lg:col-span-5">
+              <div className="rounded-xl p-5 sm:p-6 bg-[#071f16]/95 backdrop-blur-md border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] space-y-4">
+                <div className="flex items-center justify-between border-b border-emerald-900/60 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="text-[11px] font-mono text-gold-400 font-bold uppercase tracking-wider">
+                      LIVE QUESTION PREVIEW
+                    </span>
                   </div>
-                ))}
-              </div>
+                  <span className="text-[11px] font-mono bg-[#04100b] px-2.5 py-1 rounded border border-emerald-900/60 text-emerald-300">
+                    TIME: 00:28
+                  </span>
+                </div>
 
-              <div className="p-3.5 rounded-lg bg-navy-950/80 border border-navy-800 text-xs text-slate-400 font-sans">
-                <strong className="text-gold-400 font-mono">SOLUTION: </strong>
-                Each term is multiplied by 2 and increased by 1: (39 × 2) + 1 = 79.
+                <div className="space-y-1.5">
+                  <div className="text-[10px] font-mono text-emerald-400/80 uppercase">
+                    CATEGORY: NUMERICAL REASONING
+                  </div>
+                  <p className="text-sm sm:text-base font-semibold text-white leading-snug">
+                    What is the next number in the military tactical sequence: <br />
+                    <span className="text-gold-400 font-mono text-lg font-bold">4, 9, 19, 39, [ ? ]</span>
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2.5 pt-1">
+                  {[
+                    { label: 'A) 69', isCorrect: false },
+                    { label: 'B) 78', isCorrect: false },
+                    { label: 'C) 79', isCorrect: true },
+                    { label: 'D) 89', isCorrect: false },
+                  ].map((opt, idx) => {
+                    const isSelected = selectedAnswer === idx;
+                    const showCorrect = selectedAnswer !== null && opt.isCorrect;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          handleSound();
+                          setSelectedAnswer(idx);
+                        }}
+                        className={`p-2.5 rounded-lg border text-xs font-mono text-left transition-all ${
+                          showCorrect
+                            ? 'bg-emerald-500/25 border-emerald-400 text-emerald-200 font-bold shadow-[0_0_12px_rgba(16,185,129,0.4)]'
+                            : isSelected
+                            ? 'bg-red-500/20 border-red-500 text-red-200'
+                            : 'bg-[#04100b] border-emerald-900/60 text-slate-300 hover:border-emerald-500/50 hover:bg-[#07241a]'
+                        }`}
+                      >
+                        {opt.label} {showCorrect && '✓'}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="p-3 rounded-lg bg-[#04100b] border border-emerald-900/60 text-[11px] text-slate-300 font-sans">
+                  <strong className="text-gold-400 font-mono">SOLUTION: </strong>
+                  Each term is multiplied by 2 and increased by 1: (39 × 2) + 1 = 79.
+                </div>
               </div>
             </div>
           </div>
@@ -540,77 +686,91 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          5. FEATURED COURSES SECTION
+          5. FEATURED COURSES SECTION (STRICTLY 3 COURSES)
           ======================================================== */}
-      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 md:mb-10 gap-3">
           <div>
-            <span className="text-xs font-mono font-bold tracking-[0.25em] text-gold-500 uppercase">
-              ENROLLMENT CATALOG
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black uppercase text-white font-military mt-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+              <Award className="w-3.5 h-3.5 text-emerald-400" />
+              <span>TRI-SERVICE ENROLLMENT</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military mt-2">
               OFFICER PREPARATION COURSES
             </h2>
           </div>
           <Link
             href="/courses"
             onClick={handleSound}
-            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-emerald-300 transition-colors"
           >
-            <span>VIEW ALL 7 COURSES</span>
+            <span>VIEW ALL COURSES</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {(data?.featuredCourses || []).slice(0, 3).map((course: any) => (
+        {/* Strictly 3 Courses Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {coursesToDisplay.map((course: any) => (
             <div
               key={course.id}
-              className="glass-panel glass-panel-hover rounded-2xl p-6 flex flex-col justify-between border border-navy-800 hover:border-gold-500/40 relative"
+              className="group relative rounded-xl p-5 sm:p-6 bg-[#071d15]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/60 hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-all duration-300 flex flex-col justify-between"
             >
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-navy-800 text-gold-400 uppercase font-semibold">
-                    {course.targetForce} FORCE
+                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#04100b] text-emerald-300 uppercase font-semibold border border-emerald-800/60">
+                    {course.targetForce || 'TRI-SERVICE'} FORCE
                   </span>
-                  <span className="text-xs font-bold text-defense-success bg-defense-success/10 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-bold text-gold-400 bg-gold-500/15 border border-gold-500/30 px-2 py-0.5 rounded">
                     SAVE 40%
                   </span>
                 </div>
 
-                <h3 className="text-xl font-black uppercase text-white font-military">
+                <h3 className="text-lg sm:text-xl font-black uppercase text-white font-military group-hover:text-gold-400 transition-colors line-clamp-1">
                   {course.title}
                 </h3>
 
-                <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed">
+                <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
                   {course.description}
                 </p>
 
-                <div className="flex items-baseline gap-2 pt-2">
+                {/* Features Highlights */}
+                {course.features && course.features.length > 0 && (
+                  <div className="space-y-1.5 pt-1">
+                    {course.features.slice(0, 3).map((feat: string, fIdx: number) => (
+                      <div key={fIdx} className="flex items-center gap-2 text-[11px] text-slate-200">
+                        <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span className="line-clamp-1">{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-900/50">
                   <span className="text-2xl font-black text-gold-400 font-military">
-                    ৳{course.discountPrice.toLocaleString()}
+                    ৳{(course.discountPrice || 3500).toLocaleString()}
                   </span>
-                  <span className="text-xs text-slate-500 line-through">
-                    ৳{course.regularPrice.toLocaleString()}
+                  <span className="text-xs text-slate-400 line-through">
+                    ৳{(course.regularPrice || 5800).toLocaleString()}
                   </span>
-                  <span className="text-[11px] text-slate-400 ml-auto">
-                    {course.validityDays} Days Access
+                  <span className="text-[10px] font-mono text-emerald-300/80 ml-auto bg-[#04100b] px-2 py-0.5 rounded border border-emerald-900/50">
+                    {course.validityDays || 180} Days Access
                   </span>
                 </div>
               </div>
 
-              <div className="pt-6 mt-6 border-t border-navy-800 flex items-center gap-3">
+              <div className="pt-4 mt-4 border-t border-emerald-900/50 flex items-center gap-2.5">
                 <Link
-                  href={`/courses/${course.slug}`}
+                  href={`/courses/${course.slug || course.id}`}
                   onClick={handleSound}
-                  className="flex-1 text-center py-2.5 rounded-lg bg-navy-800 hover:bg-navy-700 text-slate-200 text-xs font-bold uppercase tracking-wider border border-navy-700 transition-all"
+                  className="flex-1 text-center py-2.5 rounded-lg bg-[#04100b] hover:bg-[#07241a] text-slate-200 text-xs font-bold uppercase tracking-wider border border-emerald-900/60 hover:border-emerald-500/50 transition-all"
                 >
                   CURRICULUM
                 </Link>
                 <Link
                   href={`/checkout?courseId=${course.id}`}
                   onClick={handleSound}
-                  className="flex-1 text-center py-2.5 rounded-lg bg-gold-500 hover:bg-gold-400 text-navy-950 text-xs font-black uppercase tracking-wider transition-all shadow-md"
+                  className="flex-1 text-center py-2.5 rounded-lg bg-gradient-to-r from-gold-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 text-xs font-black uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(214,173,96,0.3)] hover:scale-105 active:scale-95"
                 >
                   ENROLL NOW
                 </Link>
@@ -621,44 +781,45 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          6. FACEBOOK VIDEO GALLERY (ADMIN DYNAMIC)
+          6. TACTICAL VIDEO LECTURES (COMPACT 3-CARD GALLERY)
           ======================================================== */}
-      <section className="relative z-10 py-20 bg-navy-900/50 backdrop-blur-sm border-t border-navy-800">
+      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 mb-12">
-            <span className="text-xs font-mono font-bold tracking-[0.25em] text-gold-500 uppercase">
-              TACTICAL VIDEO LECTURES
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black uppercase text-white font-military">
+          <div className="text-center space-y-2 mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+              <Video className="w-3.5 h-3.5 text-emerald-400" />
+              <span>TACTICAL VIDEO LECTURES</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military">
               DEFENSE MASTERCLASSES & GUIDANCE
             </h2>
-            <p className="max-w-xl mx-auto text-sm text-slate-400">
+            <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
               Insightful video tutorials from our military mentors breaking down PPDT, GTO bridging, and Board Interview psychology.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {(data?.videos || []).map((video: any) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {videosToDisplay.map((video: any) => (
               <div
                 key={video.id}
-                className="glass-panel rounded-xl overflow-hidden border border-navy-800 hover:border-gold-500/40 group cursor-pointer transition-all"
+                className="group relative rounded-xl overflow-hidden bg-[#071d15]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.2)] cursor-pointer transition-all duration-300"
                 onClick={() => setSelectedVideo(video)}
               >
-                <div className="relative aspect-video bg-navy-900 flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 bg-navy-950/40 group-hover:bg-navy-950/20 transition-all" />
-                  <div className="w-12 h-12 rounded-full bg-gold-500 text-navy-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                    <Play className="w-5 h-5 fill-current ml-0.5" />
+                <div className="relative aspect-video bg-[#04100b] flex items-center justify-center overflow-hidden">
+                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all" />
+                  <div className="w-11 h-11 rounded-full bg-gradient-to-r from-gold-500 to-emerald-500 text-navy-950 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                    <Play className="w-4 h-4 fill-current ml-0.5" />
                   </div>
-                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/60 text-[10px] font-mono text-white">
-                    VIDEO MASTERCLASS
+                  <div className="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-black/70 text-[9px] font-mono text-emerald-300 border border-emerald-900/50">
+                    {video.duration || 'MASTERCLASS'}
                   </div>
                 </div>
 
-                <div className="p-4 space-y-2">
-                  <h4 className="text-sm font-bold text-white group-hover:text-gold-400 transition-colors line-clamp-2">
+                <div className="p-4 space-y-1.5">
+                  <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-gold-400 transition-colors line-clamp-2">
                     {video.title}
                   </h4>
-                  <p className="text-xs text-slate-400 line-clamp-2">
+                  <p className="text-[11px] text-slate-300 line-clamp-2">
                     {video.description}
                   </p>
                 </div>
@@ -670,15 +831,17 @@ export default function HomePage() {
 
       {/* Video Modal */}
       {selectedVideo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="bg-navy-900 border border-gold-500/40 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between p-4 border-b border-navy-800">
-              <h3 className="text-sm font-bold text-white uppercase">{selectedVideo.title}</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4">
+          <div className="bg-[#071d15] border border-emerald-500/40 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl">
+            <div className="flex items-center justify-between p-3.5 border-b border-emerald-900/60 bg-[#04100b]">
+              <h3 className="text-xs sm:text-sm font-bold text-white uppercase truncate pr-4">
+                {selectedVideo.title}
+              </h3>
               <button
                 onClick={() => setSelectedVideo(null)}
-                className="text-slate-400 hover:text-white text-sm font-bold px-2 py-1"
+                className="text-slate-400 hover:text-white text-xs font-mono font-bold px-2 py-1 bg-emerald-500/10 border border-emerald-500/30 rounded"
               >
-                CLOSE
+                CLOSE [✕]
               </button>
             </div>
             <div className="aspect-video w-full bg-black">
@@ -689,7 +852,7 @@ export default function HomePage() {
                 allowFullScreen
               />
             </div>
-            <div className="p-4 bg-navy-950">
+            <div className="p-3.5 bg-[#04100b] border-t border-emerald-900/60">
               <p className="text-xs text-slate-300">{selectedVideo.description}</p>
             </div>
           </div>
@@ -697,31 +860,32 @@ export default function HomePage() {
       )}
 
       {/* ========================================================
-          7. SUCCESSFUL CANDIDATES & TESTIMONIALS
+          7. SUCCESSFUL CANDIDATES & TESTIMONIALS (COMPACT 3-CARD)
           ======================================================== */}
-      <section id="testimonials" className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-3 mb-14">
-          <span className="text-xs font-mono font-bold tracking-[0.25em] text-gold-500 uppercase">
-            COMMISSIONED OFFICERS
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black uppercase text-white font-military">
+      <section id="testimonials" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center space-y-2 mb-8 md:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+            <Award className="w-3.5 h-3.5 text-emerald-400" />
+            <span>COMMISSIONED OFFICERS</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military">
             RECOMMENDED CANDIDATE STORIES
           </h2>
-          <p className="max-w-xl mx-auto text-sm text-slate-400">
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
             Real experiences from Bravo Academy alumni who earned their Green Cards and are currently serving the nation.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {(data?.testimonials || []).map((t: any) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+          {testimonialsToDisplay.map((t: any) => (
             <div
               key={t.id}
-              className="glass-panel rounded-2xl p-6 flex flex-col justify-between border border-navy-800 hover:border-gold-500/30"
+              className="rounded-xl p-5 sm:p-6 bg-[#071d15]/80 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/40 transition-all flex flex-col justify-between"
             >
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center gap-1 text-gold-400">
                   {[...Array(t.rating || 5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-current" />
+                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
                   ))}
                 </div>
                 <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
@@ -729,13 +893,15 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <div className="pt-4 mt-6 border-t border-navy-800 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gold-500/20 border border-gold-500/40 flex items-center justify-center font-bold text-gold-400">
-                  {t.candidateName[0]}
+              <div className="pt-4 mt-4 border-t border-emerald-900/50 flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-gold-400 text-xs">
+                  {t.candidateName ? t.candidateName[0] : 'C'}
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-white">{t.candidateName}</div>
-                  <div className="text-xs text-gold-400/90 font-mono">{t.cadetCourse} · {t.forceSelected}</div>
+                  <div className="text-xs sm:text-sm font-bold text-white">{t.candidateName}</div>
+                  <div className="text-[10px] font-mono text-emerald-300/80">
+                    {t.cadetCourse} · {t.forceSelected}
+                  </div>
                 </div>
               </div>
             </div>
@@ -744,80 +910,88 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          8. FREQUENTLY ASKED QUESTIONS (ACCORDION)
+          8. FREQUENTLY ASKED QUESTIONS (COMPACT ACCORDION)
           ======================================================== */}
-      <section className="relative z-10 py-20 bg-navy-900/50 backdrop-blur-sm border-t border-navy-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-3 mb-12">
-            <span className="text-xs font-mono font-bold tracking-[0.25em] text-gold-500 uppercase">
-              GOT QUESTIONS?
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-black uppercase text-white font-military">
+      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center space-y-2 mb-6 md:mb-8">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+              <HelpCircle className="w-3.5 h-3.5 text-emerald-400" />
+              <span>GOT QUESTIONS?</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-black uppercase text-white font-military">
               FREQUENTLY ASKED QUESTIONS
             </h2>
           </div>
 
-          <div className="space-y-4">
-            {(data?.faqs || []).map((faq: any, idx: number) => (
-              <div
-                key={faq.id}
-                className="glass-panel rounded-xl border border-navy-800 overflow-hidden transition-all"
-              >
-                <button
-                  onClick={() => {
-                    handleSound();
-                    setActiveFaq(activeFaq === idx ? null : idx);
-                  }}
-                  className="w-full text-left p-5 flex items-center justify-between text-sm sm:text-base font-bold text-white hover:text-gold-400 transition-colors"
+          <div className="space-y-3">
+            {faqsToDisplay.map((faq: any, idx: number) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div
+                  key={faq.id}
+                  className={`rounded-xl border overflow-hidden transition-all ${
+                    isOpen
+                      ? 'bg-[#071f16] border-emerald-500/50 shadow-[0_0_15px_rgba(16,185,129,0.15)]'
+                      : 'bg-[#071d15]/80 border-emerald-900/60 hover:border-emerald-500/30'
+                  }`}
                 >
-                  <span>{faq.question}</span>
-                  <ChevronRight
-                    className={`w-5 h-5 text-gold-400 transition-transform ${
-                      activeFaq === idx ? 'rotate-90' : ''
-                    }`}
-                  />
-                </button>
-                {activeFaq === idx && (
-                  <div className="px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-navy-800/60 pt-3">
-                    {faq.answer}
-                  </div>
-                )}
-              </div>
-            ))}
+                  <button
+                    onClick={() => {
+                      handleSound();
+                      setActiveFaq(isOpen ? null : idx);
+                    }}
+                    className="w-full text-left p-4 sm:p-5 flex items-center justify-between text-xs sm:text-sm font-bold text-white hover:text-gold-400 transition-colors"
+                  >
+                    <span>{faq.question}</span>
+                    <ChevronRight
+                      className={`w-4 h-4 text-emerald-400 transition-transform ${
+                        isOpen ? 'rotate-90' : ''
+                      }`}
+                    />
+                  </button>
+                  {isOpen && (
+                    <div className="px-4 sm:px-5 pb-4 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-emerald-900/50 pt-3">
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          9. FINAL CALL TO ACTION BANNER
+          9. FINAL CALL TO ACTION BANNER (COMPACT & SLEEK)
           ======================================================== */}
-      <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
-        <div className="glass-panel rounded-3xl p-10 sm:p-16 border-2 border-gold-500/40 shadow-[0_0_50px_rgba(214,173,96,0.15)] relative overflow-hidden">
-          <div className="absolute -top-24 -left-24 w-72 h-72 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
+        <div className="rounded-2xl p-6 sm:p-10 bg-gradient-to-br from-[#082218] via-[#061911] to-[#040d08] border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] relative overflow-hidden">
+          <div className="absolute -top-20 -left-20 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+          <div className="relative z-10 max-w-2xl mx-auto space-y-4">
             <span className="text-xs font-mono font-bold tracking-[0.25em] text-gold-400 uppercase">
               BECOME A BANGLADESH DEFENSE OFFICER
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black uppercase text-white font-military">
+            <h2 className="text-2xl sm:text-4xl font-black uppercase text-white font-military">
               START YOUR PREPARATION TODAY
             </h2>
-            <p className="text-sm sm:text-base text-slate-300">
+            <p className="text-xs sm:text-sm text-slate-300">
               Join thousands of dedicated candidates preparing for Bangladesh Army, Navy, and Air Force commissions with Bravo Academy.
             </p>
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/register"
                 onClick={handleSound}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 hover:from-gold-400 hover:to-gold-500 text-navy-950 font-black text-sm uppercase tracking-widest transition-all shadow-xl hover:scale-105 active:scale-95"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-gradient-to-r from-gold-500 via-amber-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 font-black text-xs uppercase tracking-widest transition-all shadow-[0_0_20px_rgba(214,173,96,0.4)] hover:scale-105 active:scale-95"
               >
                 REGISTER AS CADET
               </Link>
               <Link
                 href="/courses"
                 onClick={handleSound}
-                className="w-full sm:w-auto px-8 py-4 rounded-xl bg-navy-900 border border-gold-500/40 text-white font-bold text-sm uppercase tracking-widest hover:bg-navy-800 transition-all"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#071f16] border border-emerald-500/40 text-white font-bold text-xs uppercase tracking-widest hover:bg-[#0a2c1f] hover:border-emerald-400 transition-all"
               >
                 BROWSE ALL COURSES
               </Link>

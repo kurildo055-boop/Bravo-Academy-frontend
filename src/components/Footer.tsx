@@ -7,9 +7,9 @@ import { Shield, Phone, Mail, MapPin, Award, CheckCircle } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-navy-950 border-t border-navy-800 text-slate-300 relative z-10 pt-16 pb-12 overflow-hidden">
+    <footer className="bg-[#030a06] border-t border-emerald-950/80 text-slate-300 relative z-10 pt-12 pb-10 overflow-hidden">
       {/* Background Decorative Accent */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-gold-500/50 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
@@ -127,7 +127,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Legal Disclaimer & Copyright */}
-        <div className="pt-8 border-t border-navy-800/80 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+        <div className="pt-6 border-t border-emerald-900/40 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
             © {new Date().getFullYear()} Bravo Academy. All rights reserved. Independent educational training platform for defense aspirants.
           </p>
