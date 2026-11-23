@@ -60,6 +60,7 @@ export default function AdminModulesManager() {
     optionB: '',
     optionC: '',
     optionD: '',
+    optionE: '',
     correctAnswer: 'A',
     explanation: ''
   });
@@ -94,7 +95,8 @@ export default function AdminModulesManager() {
           A: iqForm.optionA,
           B: iqForm.optionB,
           C: iqForm.optionC,
-          D: iqForm.optionD
+          D: iqForm.optionD,
+          ...(iqForm.optionE ? { E: iqForm.optionE } : {})
         },
         correctAnswer: iqForm.correctAnswer,
         explanation: iqForm.explanation
@@ -622,6 +624,7 @@ export default function AdminModulesManager() {
                   optionB: '',
                   optionC: '',
                   optionD: '',
+                  optionE: '',
                   correctAnswer: 'A',
                   explanation: ''
                 });
@@ -682,6 +685,7 @@ export default function AdminModulesManager() {
                               optionB: optMap.B || '',
                               optionC: optMap.C || '',
                               optionD: optMap.D || '',
+                              optionE: optMap.E || '',
                               correctAnswer: q.correctAnswer || 'A',
                               explanation: q.explanation || ''
                             });
@@ -835,6 +839,17 @@ export default function AdminModulesManager() {
                     </div>
                   </div>
 
+                  <div>
+                    <label className="text-slate-400 block mb-1">OPTION E (Optional):</label>
+                    <input
+                      type="text"
+                      value={iqForm.optionE}
+                      onChange={(e) => setIqForm({ ...iqForm, optionE: e.target.value })}
+                      placeholder="Optional 5th option..."
+                      className="w-full px-3 py-2 rounded-lg bg-[#040e09] border border-emerald-900 text-white font-sans"
+                    />
+                  </div>
+
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="text-slate-400 block mb-1">CORRECT ANSWER KEY:</label>
@@ -847,6 +862,7 @@ export default function AdminModulesManager() {
                         <option value="B">OPTION B</option>
                         <option value="C">OPTION C</option>
                         <option value="D">OPTION D</option>
+                        <option value="E">OPTION E</option>
                       </select>
                     </div>
                     <div>
