@@ -414,7 +414,59 @@ function CheckoutContent() {
               RIGHT COLUMN (7 Cols): Candidate Info & Payment Submission Form
               ======================================================== */}
           <div className="lg:col-span-7">
-            <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-navy-800 space-y-6 shadow-2xl">
+            {!currentUser ? (
+              /* Strict Auth Gate: User MUST be logged in or registered first */
+              <div className="glass-panel rounded-2xl p-8 sm:p-10 border border-gold-500/40 bg-gradient-to-br from-[#1c1608] via-navy-950 to-navy-900 space-y-6 text-center shadow-2xl">
+                <div className="w-16 h-16 rounded-full bg-gold-500/15 border-2 border-gold-400 mx-auto flex items-center justify-center text-gold-400">
+                  <Lock className="w-8 h-8" />
+                </div>
+
+                <div className="space-y-2">
+                  <span className="text-[11px] font-mono font-bold text-gold-400 bg-gold-500/15 border border-gold-500/30 px-3 py-1 rounded-full uppercase">
+                    STEP 1: CADET AUTHENTICATION REQUIRED
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase text-white font-military">
+                    লগইন অথবা রেজিস্ট্রেশন সম্পন্ন করুন
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-md mx-auto leading-relaxed">
+                    কোর্স ভর্তির আবেদন ও পেমেন্ট ভেরিফিকেশন সাবমিট করতে হলে আপনাকে প্রথমে একটি ক্যাডেট একাউন্টে সাইন ইন অথবা নতুন রেজিস্ট্রেশন করতে হবে।
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-navy-900/90 border border-navy-800 text-left text-xs font-sans text-slate-300 space-y-2">
+                  <div className="font-bold text-white flex items-center gap-1.5 font-mono text-[11px]">
+                    <Shield className="w-4 h-4 text-gold-400" />
+                    <span>কেন একাউন্ট থাকা বাধ্যতামূলক?</span>
+                  </div>
+                  <ul className="space-y-1 text-[11px] text-slate-400 list-disc list-inside">
+                    <li>অ্যাডমিন আপনার পেমেন্ট অ্যাপ্রুভ করার সাথে সাথে আপনার এই একাউন্টেই ড্যাশবোর্ড স্বয়ংক্রিয়ভাবে আনলক হবে।</li>
+                    <li>আপনার রোল, কলেজ ও পার্সোনাল রেজাল্ট ট্র্যাকিং এই একাউন্টের সাথে সিঙ্ক থাকবে।</li>
+                  </ul>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                  <Link
+                    href={`/login?redirect=/checkout?courseId=${courseId}`}
+                    onClick={() => tacticalAudio.playInterfaceClick()}
+                    className="py-3 px-4 rounded-xl bg-gold-500 hover:bg-gold-400 text-navy-950 font-black text-xs uppercase font-mono tracking-wider transition-all shadow-md flex items-center justify-center gap-2"
+                  >
+                    <span>SIGN IN TO CADET ACCOUNT</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  <Link
+                    href={`/register?redirect=/checkout?courseId=${courseId}`}
+                    onClick={() => tacticalAudio.playInterfaceClick()}
+                    className="py-3 px-4 rounded-xl bg-navy-900 hover:bg-navy-800 border border-emerald-500/40 text-emerald-300 font-black text-xs uppercase font-mono tracking-wider transition-all flex items-center justify-center gap-2"
+                  >
+                    <span>REGISTER NEW CADET</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              /* Authenticated Candidate: Verification Submission Form */
+              <div className="glass-panel rounded-2xl p-6 sm:p-8 border border-navy-800 space-y-6 shadow-2xl">
               <div className="border-b border-navy-800 pb-3 flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-black uppercase text-white font-military">
@@ -604,6 +656,7 @@ function CheckoutContent() {
                 </div>
               </form>
             </div>
+            )}
           </div>
         </div>
       </div>

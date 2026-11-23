@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Navbar } from '@/components/Navbar';
-import { Footer } from '@/components/Footer';
-import { WhatsAppButton } from '@/components/WhatsAppButton';
+import { AppLayoutShell } from '@/components/AppLayoutShell';
 
 export const metadata: Metadata = {
   title: 'BRAVO ACADEMY | Army · Navy · Air Force ISSB Preparation Platform',
@@ -20,13 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className="min-h-screen bg-navy-950 text-slate-100 flex flex-col antialiased selection:bg-gold-500 selection:text-navy-950">
-        <Navbar />
-        <main className="flex-grow">
+      <body className="min-h-screen bg-navy-950 text-slate-100 antialiased">
+        <AppLayoutShell>
           {children}
-        </main>
-        <Footer />
-        <WhatsAppButton />
+        </AppLayoutShell>
       </body>
     </html>
   );
