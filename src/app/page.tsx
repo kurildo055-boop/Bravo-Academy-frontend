@@ -254,7 +254,7 @@ export default function HomePage() {
       <div className="fixed inset-0 bg-military-grid pointer-events-none opacity-40 z-0" />
 
       {/* ========================================================
-          1. CINEMATIC HERO SECTION
+          1. CINEMATIC HERO SECTION (PRESERVED INTACT)
           ======================================================== */}
       <section className="relative min-h-screen flex items-center justify-center pt-24 pb-14 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
         {/* Dynamic Hero Background */}
@@ -410,10 +410,17 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          2. COMPACT TACTICAL HUD STATS BAR
+          2. COMPACT TACTICAL HUD STATS BAR (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 border-y border-emerald-900/50 bg-[#04100b]/90 backdrop-blur-md py-5 sm:py-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 border-y border-emerald-900/50 bg-[#04100b]/90 backdrop-blur-md py-5 sm:py-6 overflow-hidden">
+        {/* Army Vibe Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-20 filter contrast-125 saturate-50"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-forces.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040d08] via-transparent to-[#040d08] pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-emerald-900/30 text-center">
             <div className="pt-2 sm:pt-0 sm:px-3 space-y-1">
               <div className="text-2xl sm:text-3xl lg:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-300 font-military">
@@ -455,126 +462,142 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          3. THREE FORCE CARDS: ARMY · NAVY · AIR FORCE
+          3. THREE FORCE CARDS (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section id="forces" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-2 mb-8 md:mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
-            <Shield className="w-3.5 h-3.5 text-emerald-400" />
-            <span>TRI-SERVICE EXCELLENCE</span>
-          </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military tracking-wide">
-            CHOOSE YOUR DEFENSE BRANCH
-          </h2>
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
-            Specialized pre-commission curriculums tailored specifically to the requirements of the Bangladesh Armed Forces.
-          </p>
-        </div>
+      <section id="forces" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 border-t border-emerald-900/40 overflow-hidden">
+        {/* Army Vibe Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-50"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-forces.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-          {/* Card 1: Army */}
-          <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/20 transition-all" />
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
-                <Shield className="w-6 h-6 text-emerald-400" />
-              </div>
-              <div>
-                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30 uppercase">
-                  BMA LONG COURSE
-                </span>
-                <h3 className="text-xl font-black uppercase text-white font-military mt-1">
-                  BANGLADESH ARMY
-                </h3>
-              </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Comprehensive training for Bangladesh Military Academy (BMA Bhatiary). Covers tactical leadership, command tasks, and physical endurance requirements.
-              </p>
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="text-center space-y-2 mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+              <Shield className="w-3.5 h-3.5 text-emerald-400" />
+              <span>TRI-SERVICE EXCELLENCE</span>
             </div>
-
-            <div className="pt-4 mt-4 border-t border-emerald-900/50">
-              <Link
-                href="/courses?force=ARMY"
-                onClick={handleSound}
-                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-emerald-300 transition-colors"
-              >
-                <span>EXPLORE ARMY CURRICULUM</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military tracking-wide">
+              CHOOSE YOUR DEFENSE BRANCH
+            </h2>
+            <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
+              Specialized pre-commission curriculums tailored specifically to the requirements of the Bangladesh Armed Forces.
+            </p>
           </div>
 
-          {/* Card 2: Navy */}
-          <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-sky-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(14,165,233,0.2)] flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full pointer-events-none group-hover:bg-sky-500/20 transition-all" />
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-inner">
-                <Compass className="w-6 h-6 text-sky-400" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {/* Card 1: Army */}
+            <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 w-28 h-28 bg-emerald-500/10 rounded-bl-full pointer-events-none group-hover:bg-emerald-500/20 transition-all" />
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shadow-inner">
+                  <Shield className="w-6 h-6 text-emerald-400" />
+                </div>
+                <div>
+                  <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/30 uppercase">
+                    BMA LONG COURSE
+                  </span>
+                  <h3 className="text-xl font-black uppercase text-white font-military mt-1">
+                    BANGLADESH ARMY
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Comprehensive training for Bangladesh Military Academy (BMA Bhatiary). Covers tactical leadership, command tasks, and physical endurance requirements.
+                </p>
               </div>
-              <div>
-                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-semibold border border-sky-500/30 uppercase">
-                  BNA OFFICER CADET
-                </span>
-                <h3 className="text-xl font-black uppercase text-white font-military mt-1">
-                  BANGLADESH NAVY
-                </h3>
+
+              <div className="pt-4 mt-4 border-t border-emerald-900/50">
+                <Link
+                  href="/courses?force=ARMY"
+                  onClick={handleSound}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-emerald-300 transition-colors"
+                >
+                  <span>EXPLORE ARMY CURRICULUM</span>
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Maritime strategy, naval aptitude tests, and officer development for Bangladesh Naval Academy (BNA Chattogram) executive and technical branches.
-              </p>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-emerald-900/50">
-              <Link
-                href="/courses?force=NAVY"
-                onClick={handleSound}
-                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-sky-300 transition-colors"
-              >
-                <span>EXPLORE NAVY CURRICULUM</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
-
-          {/* Card 3: Air Force */}
-          <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-amber-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col justify-between overflow-hidden">
-            <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-bl-full pointer-events-none group-hover:bg-amber-500/20 transition-all" />
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-inner">
-                <Crosshair className="w-6 h-6 text-amber-400" />
+            {/* Card 2: Navy */}
+            <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-sky-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(14,165,233,0.2)] flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 w-28 h-28 bg-sky-500/10 rounded-bl-full pointer-events-none group-hover:bg-sky-500/20 transition-all" />
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shadow-inner">
+                  <Compass className="w-6 h-6 text-sky-400" />
+                </div>
+                <div>
+                  <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 font-semibold border border-sky-500/30 uppercase">
+                    BNA OFFICER CADET
+                  </span>
+                  <h3 className="text-xl font-black uppercase text-white font-military mt-1">
+                    BANGLADESH NAVY
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Maritime strategy, naval aptitude tests, and officer development for Bangladesh Naval Academy (BNA Chattogram) executive and technical branches.
+                </p>
               </div>
-              <div>
-                <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 uppercase">
-                  BAFA GD(P) & ENGINEERING
-                </span>
-                <h3 className="text-xl font-black uppercase text-white font-military mt-1">
-                  BANGLADESH AIR FORCE
-                </h3>
+
+              <div className="pt-4 mt-4 border-t border-emerald-900/50">
+                <Link
+                  href="/courses?force=NAVY"
+                  onClick={handleSound}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-sky-300 transition-colors"
+                >
+                  <span>EXPLORE NAVY CURRICULUM</span>
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
               </div>
-              <p className="text-xs text-slate-300 leading-relaxed">
-                Aviation aptitude, spatial awareness, supersonic rapid decision drills, and flight psychology for Bangladesh Air Force Academy (BAFA Jashore).
-              </p>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-emerald-900/50">
-              <Link
-                href="/courses?force=AIR_FORCE"
-                onClick={handleSound}
-                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-amber-300 transition-colors"
-              >
-                <span>EXPLORE AIR FORCE CURRICULUM</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
+            {/* Card 3: Air Force */}
+            <div className="group relative rounded-xl p-5 sm:p-6 bg-[#061811]/90 backdrop-blur-md border border-emerald-900/60 hover:border-amber-500/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_25px_rgba(245,158,11,0.2)] flex flex-col justify-between overflow-hidden">
+              <div className="absolute top-0 right-0 w-28 h-28 bg-amber-500/10 rounded-bl-full pointer-events-none group-hover:bg-amber-500/20 transition-all" />
+              <div className="space-y-3">
+                <div className="w-12 h-12 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-inner">
+                  <Crosshair className="w-6 h-6 text-amber-400" />
+                </div>
+                <div>
+                  <span className="inline-block text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30 uppercase">
+                    BAFA GD(P) & ENGINEERING
+                  </span>
+                  <h3 className="text-xl font-black uppercase text-white font-military mt-1">
+                    BANGLADESH AIR FORCE
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Aviation aptitude, spatial awareness, supersonic rapid decision drills, and flight psychology for Bangladesh Air Force Academy (BAFA Jashore).
+                </p>
+              </div>
+
+              <div className="pt-4 mt-4 border-t border-emerald-900/50">
+                <Link
+                  href="/courses?force=AIR_FORCE"
+                  onClick={handleSound}
+                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-amber-300 transition-colors"
+                >
+                  <span>EXPLORE AIR FORCE CURRICULUM</span>
+                  <ChevronRight className="w-4 h-4" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          4. 1000+ IQ PRACTICE ENGINE TEASER (COMPACT 2-COLUMN)
+          4. 1000+ IQ PRACTICE ENGINE TEASER (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 bg-[#05140d]/90 backdrop-blur-sm border-y border-emerald-950/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-10 md:py-14 bg-[#05140d]/90 backdrop-blur-sm border-y border-emerald-950/80 overflow-hidden">
+        {/* Tactical Military Operations Center Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-75"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-iq.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040d08]/95 via-[#040d08]/80 to-[#040d08]/95 pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Content Column */}
             <div className="lg:col-span-7 space-y-4">
@@ -686,105 +709,121 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          5. FEATURED COURSES SECTION (STRICTLY 3 COURSES)
+          5. FEATURED COURSES SECTION (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 md:mb-10 gap-3">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
-              <Award className="w-3.5 h-3.5 text-emerald-400" />
-              <span>TRI-SERVICE ENROLLMENT</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military mt-2">
-              OFFICER PREPARATION COURSES
-            </h2>
-          </div>
-          <Link
-            href="/courses"
-            onClick={handleSound}
-            className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-emerald-300 transition-colors"
-          >
-            <span>VIEW ALL COURSES</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+      <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 border-t border-emerald-950/80 overflow-hidden">
+        {/* Military Training Grounds Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-60"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-courses.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
 
-        {/* Strictly 3 Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          {coursesToDisplay.map((course: any) => (
-            <div
-              key={course.id}
-              className="group relative rounded-xl p-5 sm:p-6 bg-[#071d15]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/60 hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-all duration-300 flex flex-col justify-between"
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 md:mb-10 gap-3">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+                <Award className="w-3.5 h-3.5 text-emerald-400" />
+                <span>TRI-SERVICE ENROLLMENT</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military mt-2">
+                OFFICER PREPARATION COURSES
+              </h2>
+            </div>
+            <Link
+              href="/courses"
+              onClick={handleSound}
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-gold-400 hover:text-emerald-300 transition-colors"
             >
-              <div className="space-y-3.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#04100b] text-emerald-300 uppercase font-semibold border border-emerald-800/60">
-                    {course.targetForce || 'TRI-SERVICE'} FORCE
-                  </span>
-                  <span className="text-[10px] font-bold text-gold-400 bg-gold-500/15 border border-gold-500/30 px-2 py-0.5 rounded">
-                    SAVE 40%
-                  </span>
-                </div>
+              <span>VIEW ALL COURSES</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
 
-                <h3 className="text-lg sm:text-xl font-black uppercase text-white font-military group-hover:text-gold-400 transition-colors line-clamp-1">
-                  {course.title}
-                </h3>
-
-                <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
-                  {course.description}
-                </p>
-
-                {/* Features Highlights */}
-                {course.features && course.features.length > 0 && (
-                  <div className="space-y-1.5 pt-1">
-                    {course.features.slice(0, 3).map((feat: string, fIdx: number) => (
-                      <div key={fIdx} className="flex items-center gap-2 text-[11px] text-slate-200">
-                        <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                        <span className="line-clamp-1">{feat}</span>
-                      </div>
-                    ))}
+          {/* Strictly 3 Courses Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+            {coursesToDisplay.map((course: any) => (
+              <div
+                key={course.id}
+                className="group relative rounded-xl p-5 sm:p-6 bg-[#071d15]/90 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/60 hover:shadow-[0_0_25px_rgba(16,185,129,0.2)] transition-all duration-300 flex flex-col justify-between"
+              >
+                <div className="space-y-3.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono px-2.5 py-0.5 rounded bg-[#04100b] text-emerald-300 uppercase font-semibold border border-emerald-800/60">
+                      {course.targetForce || 'TRI-SERVICE'} FORCE
+                    </span>
+                    <span className="text-[10px] font-bold text-gold-400 bg-gold-500/15 border border-gold-500/30 px-2 py-0.5 rounded">
+                      SAVE 40%
+                    </span>
                   </div>
-                )}
 
-                <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-900/50">
-                  <span className="text-2xl font-black text-gold-400 font-military">
-                    ৳{(course.discountPrice || 3500).toLocaleString()}
-                  </span>
-                  <span className="text-xs text-slate-400 line-through">
-                    ৳{(course.regularPrice || 5800).toLocaleString()}
-                  </span>
-                  <span className="text-[10px] font-mono text-emerald-300/80 ml-auto bg-[#04100b] px-2 py-0.5 rounded border border-emerald-900/50">
-                    {course.validityDays || 180} Days Access
-                  </span>
+                  <h3 className="text-lg sm:text-xl font-black uppercase text-white font-military group-hover:text-gold-400 transition-colors line-clamp-1">
+                    {course.title}
+                  </h3>
+
+                  <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
+                    {course.description}
+                  </p>
+
+                  {/* Features Highlights */}
+                  {course.features && course.features.length > 0 && (
+                    <div className="space-y-1.5 pt-1">
+                      {course.features.slice(0, 3).map((feat: string, fIdx: number) => (
+                        <div key={fIdx} className="flex items-center gap-2 text-[11px] text-slate-200">
+                          <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                          <span className="line-clamp-1">{feat}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex items-baseline gap-2 pt-2 border-t border-emerald-900/50">
+                    <span className="text-2xl font-black text-gold-400 font-military">
+                      ৳{(course.discountPrice || 3500).toLocaleString()}
+                    </span>
+                    <span className="text-xs text-slate-400 line-through">
+                      ৳{(course.regularPrice || 5800).toLocaleString()}
+                    </span>
+                    <span className="text-[10px] font-mono text-emerald-300/80 ml-auto bg-[#04100b] px-2 py-0.5 rounded border border-emerald-900/50">
+                      {course.validityDays || 180} Days Access
+                    </span>
+                  </div>
+                </div>
+
+                <div className="pt-4 mt-4 border-t border-emerald-900/50 flex items-center gap-2.5">
+                  <Link
+                    href={`/courses/${course.slug || course.id}`}
+                    onClick={handleSound}
+                    className="flex-1 text-center py-2.5 rounded-lg bg-[#04100b] hover:bg-[#07241a] text-slate-200 text-xs font-bold uppercase tracking-wider border border-emerald-900/60 hover:border-emerald-500/50 transition-all"
+                  >
+                    CURRICULUM
+                  </Link>
+                  <Link
+                    href={`/checkout?courseId=${course.id}`}
+                    onClick={handleSound}
+                    className="flex-1 text-center py-2.5 rounded-lg bg-gradient-to-r from-gold-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 text-xs font-black uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(214,173,96,0.3)] hover:scale-105 active:scale-95"
+                  >
+                    ENROLL NOW
+                  </Link>
                 </div>
               </div>
-
-              <div className="pt-4 mt-4 border-t border-emerald-900/50 flex items-center gap-2.5">
-                <Link
-                  href={`/courses/${course.slug || course.id}`}
-                  onClick={handleSound}
-                  className="flex-1 text-center py-2.5 rounded-lg bg-[#04100b] hover:bg-[#07241a] text-slate-200 text-xs font-bold uppercase tracking-wider border border-emerald-900/60 hover:border-emerald-500/50 transition-all"
-                >
-                  CURRICULUM
-                </Link>
-                <Link
-                  href={`/checkout?courseId=${course.id}`}
-                  onClick={handleSound}
-                  className="flex-1 text-center py-2.5 rounded-lg bg-gradient-to-r from-gold-500 to-emerald-600 hover:from-gold-400 hover:to-emerald-500 text-navy-950 text-xs font-black uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(214,173,96,0.3)] hover:scale-105 active:scale-95"
-                >
-                  ENROLL NOW
-                </Link>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ========================================================
-          6. TACTICAL VIDEO LECTURES (COMPACT 3-CARD GALLERY)
+          6. TACTICAL VIDEO LECTURES (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80 overflow-hidden">
+        {/* Tactical Command Briefing Room Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-60"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-videos.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-2 mb-8 md:mb-10">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
               <Video className="w-3.5 h-3.5 text-emerald-400" />
@@ -860,60 +899,76 @@ export default function HomePage() {
       )}
 
       {/* ========================================================
-          7. SUCCESSFUL CANDIDATES & TESTIMONIALS (COMPACT 3-CARD)
+          7. SUCCESSFUL CANDIDATES & TESTIMONIALS (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section id="testimonials" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center space-y-2 mb-8 md:mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
-            <Award className="w-3.5 h-3.5 text-emerald-400" />
-            <span>COMMISSIONED OFFICERS</span>
+      <section id="testimonials" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 border-t border-emerald-950/80 overflow-hidden">
+        {/* Military Parade Grounds Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-60"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-testimonials.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto">
+          <div className="text-center space-y-2 mb-8 md:mb-10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
+              <Award className="w-3.5 h-3.5 text-emerald-400" />
+              <span>COMMISSIONED OFFICERS</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military">
+              RECOMMENDED CANDIDATE STORIES
+            </h2>
+            <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
+              Real experiences from Bravo Academy alumni who earned their Green Cards and are currently serving the nation.
+            </p>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black uppercase text-white font-military">
-            RECOMMENDED CANDIDATE STORIES
-          </h2>
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-slate-300">
-            Real experiences from Bravo Academy alumni who earned their Green Cards and are currently serving the nation.
-          </p>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
-          {testimonialsToDisplay.map((t: any) => (
-            <div
-              key={t.id}
-              className="rounded-xl p-5 sm:p-6 bg-[#071d15]/80 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/40 transition-all flex flex-col justify-between"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center gap-1 text-gold-400">
-                  {[...Array(t.rating || 5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+            {testimonialsToDisplay.map((t: any) => (
+              <div
+                key={t.id}
+                className="rounded-xl p-5 sm:p-6 bg-[#071d15]/80 backdrop-blur-md border border-emerald-900/60 hover:border-emerald-500/40 transition-all flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1 text-gold-400">
+                    {[...Array(t.rating || 5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
+                    "{t.reviewText}"
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 italic leading-relaxed">
-                  "{t.reviewText}"
-                </p>
-              </div>
 
-              <div className="pt-4 mt-4 border-t border-emerald-900/50 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-gold-400 text-xs">
-                  {t.candidateName ? t.candidateName[0] : 'C'}
-                </div>
-                <div>
-                  <div className="text-xs sm:text-sm font-bold text-white">{t.candidateName}</div>
-                  <div className="text-[10px] font-mono text-emerald-300/80">
-                    {t.cadetCourse} · {t.forceSelected}
+                <div className="pt-4 mt-4 border-t border-emerald-900/50 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center font-bold text-gold-400 text-xs">
+                    {t.candidateName ? t.candidateName[0] : 'C'}
+                  </div>
+                  <div>
+                    <div className="text-xs sm:text-sm font-bold text-white">{t.candidateName}</div>
+                    <div className="text-[10px] font-mono text-emerald-300/80">
+                      {t.cadetCourse} · {t.forceSelected}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ========================================================
-          8. FREQUENTLY ASKED QUESTIONS (COMPACT ACCORDION)
+          8. FREQUENTLY ASKED QUESTIONS (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80 overflow-hidden">
+        {/* Tactical Military Camouflage Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-20 filter contrast-125 saturate-60"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-faq.jpg')` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/88 to-[#040d08] pointer-events-none" />
+
+        <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-2 mb-6 md:mb-8">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-mono tracking-widest uppercase">
               <HelpCircle className="w-3.5 h-3.5 text-emerald-400" />
@@ -963,10 +1018,17 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================
-          9. FINAL CALL TO ACTION BANNER (COMPACT & SLEEK)
+          9. FINAL CALL TO ACTION BANNER (ARMY VIBE BACKGROUND)
           ======================================================== */}
       <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
-        <div className="rounded-2xl p-6 sm:p-10 bg-gradient-to-br from-[#082218] via-[#061911] to-[#040d08] border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] relative overflow-hidden">
+        <div className="relative rounded-2xl p-6 sm:p-10 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] overflow-hidden">
+          {/* Tactical Commandos Background Image */}
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-30 filter contrast-125 saturate-75"
+            style={{ backgroundImage: `url('/images/backgrounds/bg-cta.jpg')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#082218]/95 via-[#061911]/90 to-[#040d08]/95 pointer-events-none" />
+
           <div className="absolute -top-20 -left-20 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
 
