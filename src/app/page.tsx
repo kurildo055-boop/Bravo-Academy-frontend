@@ -412,13 +412,13 @@ export default function HomePage() {
       {/* ========================================================
           2. COMPACT TACTICAL HUD STATS BAR (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 border-y border-emerald-900/50 bg-[#04100b]/90 backdrop-blur-md py-5 sm:py-6 overflow-hidden">
-        {/* Army Vibe Background Image */}
+      <section className="relative z-10 border-y border-emerald-900/50 bg-[#04100b]/60 backdrop-blur-sm py-5 sm:py-6 overflow-hidden">
+        {/* Army Vibe Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-20 filter contrast-125 saturate-50"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-60 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-forces.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#040d08] via-transparent to-[#040d08] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040d08]/90 via-black/35 to-[#040d08]/90 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-emerald-900/30 text-center">
@@ -465,12 +465,12 @@ export default function HomePage() {
           3. THREE FORCE CARDS (ARMY VIBE BACKGROUND)
           ======================================================== */}
       <section id="forces" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 border-t border-emerald-900/40 overflow-hidden">
-        {/* Army Vibe Background Image */}
+        {/* Army Vibe Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-50"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-80 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-forces.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08]/85 via-black/25 to-[#040d08]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center space-y-2 mb-8 md:mb-10">
@@ -589,13 +589,13 @@ export default function HomePage() {
       {/* ========================================================
           4. 1000+ IQ PRACTICE ENGINE TEASER (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 bg-[#05140d]/90 backdrop-blur-sm border-y border-emerald-950/80 overflow-hidden">
-        {/* Tactical Military Operations Center Background Image */}
+      <section className="relative z-10 py-10 md:py-14 border-y border-emerald-950/80 overflow-hidden">
+        {/* Tactical Military Operations Center Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-75"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-80 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-iq.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#040d08]/95 via-[#040d08]/80 to-[#040d08]/95 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040d08]/85 via-black/25 to-[#040d08]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
@@ -712,12 +712,12 @@ export default function HomePage() {
           5. FEATURED COURSES SECTION (ARMY VIBE BACKGROUND)
           ======================================================== */}
       <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 border-t border-emerald-950/80 overflow-hidden">
-        {/* Military Training Grounds Background Image */}
+        {/* Military Training Grounds Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-60"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-80 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-courses.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08]/85 via-black/25 to-[#040d08]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 md:mb-10 gap-3">
@@ -815,13 +815,13 @@ export default function HomePage() {
       {/* ========================================================
           6. TACTICAL VIDEO LECTURES (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80 overflow-hidden">
-        {/* Tactical Command Briefing Room Background Image */}
+      <section className="relative z-10 py-10 md:py-14 border-t border-emerald-950/80 overflow-hidden">
+        {/* Tactical Command Briefing Room Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-60"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-80 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-videos.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08]/85 via-black/25 to-[#040d08]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-2 mb-8 md:mb-10">
@@ -902,12 +902,12 @@ export default function HomePage() {
           7. SUCCESSFUL CANDIDATES & TESTIMONIALS (ARMY VIBE BACKGROUND)
           ======================================================== */}
       <section id="testimonials" className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 border-t border-emerald-950/80 overflow-hidden">
-        {/* Military Parade Grounds Background Image */}
+        {/* Military Parade Grounds Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-25 filter contrast-125 saturate-60"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-80 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-testimonials.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/85 to-[#040d08] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08]/85 via-black/25 to-[#040d08]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="text-center space-y-2 mb-8 md:mb-10">
@@ -960,13 +960,13 @@ export default function HomePage() {
       {/* ========================================================
           8. FREQUENTLY ASKED QUESTIONS (ARMY VIBE BACKGROUND)
           ======================================================== */}
-      <section className="relative z-10 py-10 md:py-14 bg-[#05130d]/90 backdrop-blur-sm border-t border-emerald-950/80 overflow-hidden">
-        {/* Tactical Military Camouflage Background Image */}
+      <section className="relative z-10 py-10 md:py-14 border-t border-emerald-950/80 overflow-hidden">
+        {/* Tactical Military Camouflage Background Image - Crystal Clear */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-20 filter contrast-125 saturate-60"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-75 filter brightness-95 contrast-110"
           style={{ backgroundImage: `url('/images/backgrounds/bg-faq.jpg')` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08] via-[#040d08]/88 to-[#040d08] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#040d08]/85 via-black/25 to-[#040d08]/85 pointer-events-none" />
 
         <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-2 mb-6 md:mb-8">
@@ -1022,12 +1022,12 @@ export default function HomePage() {
           ======================================================== */}
       <section className="relative z-10 py-10 md:py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center">
         <div className="relative rounded-2xl p-6 sm:p-10 border border-emerald-500/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] overflow-hidden">
-          {/* Tactical Commandos Background Image */}
+          {/* Tactical Commandos Background Image - Crystal Clear */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-30 filter contrast-125 saturate-75"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-80 filter brightness-100 contrast-110"
             style={{ backgroundImage: `url('/images/backgrounds/bg-cta.jpg')` }}
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#082218]/95 via-[#061911]/90 to-[#040d08]/95 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#082218]/85 via-black/30 to-[#040d08]/85 pointer-events-none" />
 
           <div className="absolute -top-20 -left-20 w-60 h-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-gold-500/10 rounded-full blur-3xl pointer-events-none" />
