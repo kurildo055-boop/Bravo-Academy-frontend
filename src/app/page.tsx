@@ -413,10 +413,10 @@ export default function HomePage() {
           2. COMPACT TACTICAL HUD STATS BAR (ARMY VIBE BACKGROUND)
           ======================================================== */}
       <section className="relative z-10 border-y border-emerald-900/50 bg-[#04100b]/60 backdrop-blur-sm py-5 sm:py-6 overflow-hidden">
-        {/* Army Vibe Background Image - Crystal Clear */}
+        {/* Bangladesh Army MBT-2000 Battle Tank Background */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-60 filter brightness-95 contrast-110"
-          style={{ backgroundImage: `url('/images/backgrounds/bg-forces.jpg')` }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-65 filter brightness-95 contrast-110"
+          style={{ backgroundImage: `url('/images/backgrounds/bg-stats.jpg')` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[#040d08]/90 via-black/35 to-[#040d08]/90 pointer-events-none" />
 
